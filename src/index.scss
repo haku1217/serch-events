@@ -18,9 +18,14 @@ button:hover {
 
 li {
   line-height: 1.6;
+  list-style: none;
 }
 
 #btn {
   width: 100px;
   height: 30px;
+}
+
+.radio-atnd {
+  font-size: 60px;
 }
