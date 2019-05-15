@@ -1,13 +1,14 @@
 body {
-  margin: 0;
+  margin: 50px;
   padding: 0;
   font-family: sans-serif;
+
 }
+
 
 button {
   border: 2px solid #aaf;
   border-radius: 9px;
-  padding: 2px 6px 2px 2px;
   cursor: pointer;
 }
 
@@ -19,13 +20,18 @@ button:hover {
 li {
   line-height: 1.6;
   list-style: none;
+  margin-bottom: 0.5rem;
 }
 
-#btn {
-  width: 100px;
-  height: 30px;
+
+.RadioAtnd{
+  background-color: aqua;
 }
 
-.radio-atnd {
-  font-size: 60px;
+.RadioDoorKeeper{
+  background-color:  greenyellow;
+}
+
+.RadioConnpass{
+  background-color: pink;
 }

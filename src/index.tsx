@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import './index.scss';
+import './index.css';
 
 interface IRedioFormState {
    selected: string
@@ -24,17 +24,17 @@ class RedioForm extends React.Component<any,IRedioFormState> {
         <div>
           <input id="radio1" type="radio" name="app" checked={this.state.selected === "https://api.atnd.org/events/?keyword_or=東京都&format=json"} 
           onChange={(e) => this.setState({ selected: e.target.value })} value="https://api.atnd.org/events/?keyword_or=東京都&format=json" />
-          <label className="radio-atnd"htmlFor='radio1'>ATND</label>
+          <label className="RadioAtnd" htmlFor='radio1'>ATND</label>
         </div>
         <div>
           <input id="radio2" type="radio" name="app" checked={this.state.selected === "https://api.doorkeeper.jp/events?q=東京都"} 
           onChange={(e) => this.setState({ selected: e.target.value })} value="https://api.doorkeeper.jp/events?q=東京都" />
-          <label className="radio-doorkeeper" htmlFor='radio2'>Doorkeeper</label>
+          <label className="RadioDoorKeeper" htmlFor='radio2'>Doorkeeper</label>
         </div>
         <div>
           <input id="radio3" type="radio" name="app" checked={this.state.selected === "https://connpass.com/api/v1/event/?keyword_or=東京都"} 
           onChange={(e) => this.setState({ selected: e.target.value })} value="https://connpass.com/api/v1/event/?keyword_or=東京都" />
-          <label className="radio-connpass" htmlFor='radio3'>Connpass</label>
+          <label className="RadioConnpass" htmlFor='radio3'>Connpass</label>
         </div>
         <div>
           <SearchButton url={this.state.selected} onSubmit={this.handleonSubmit}/>
@@ -67,7 +67,7 @@ class RedioForm extends React.Component<any,IRedioFormState> {
             <div>読み取りエラー</div>
           );
         });
-          }
+  }
 }
 
 
@@ -77,14 +77,11 @@ export class SearchButton extends React.Component<any, any> {
     super(props);
     this.onSubmit = this.onSubmit.bind(this);
     this.state = ({
-      eventdata: []
+      eventdata: [],
+      site: ""
     });
   }
-  componentDidMount() {
-    this.onSubmit();
-  }
 
-  
   public onSubmit(){
     const url = this.props.url
 
@@ -94,18 +91,15 @@ export class SearchButton extends React.Component<any, any> {
       .then(text =>{
        
         this.setState({
-          eventdata: text
+          eventdata: text,
+          site: url
         })
-        console.log(this.state)
-      })
-      .catch(e =>{
-        console.log(e);
       })
       
   }
   public render() {
 
-    const url = this.props.url
+    const url = this.state.site
     let eventlist;
     switch(url){
       case 'https://api.atnd.org/events/?keyword_or=東京都&format=json':
@@ -114,7 +108,7 @@ export class SearchButton extends React.Component<any, any> {
         break;
       case 'https://api.doorkeeper.jp/events?q=東京都':
         eventlist = this.state.eventdata && this.state.eventdata.map( events =>
-          <li key={events.public_url}><a href={events.event.public_url} target="_blank">{events.event.title}</a></li>)
+          <li key={events.event.public_url}><a href={events.event.public_url} target="_blank">{events.event.title}</a></li>)
         break;
       case 'https://connpass.com/api/v1/event/?keyword_or=東京都':
         eventlist = this.state.eventdata && this.state.eventdata.events && this.state.eventdata.events.map( events =>
@@ -124,8 +118,7 @@ export class SearchButton extends React.Component<any, any> {
     
     return(
       <div>
-        <p>{this.props.url}</p>
-        <button type="button" name="submit" onClick={this.onSubmit}>検索する</button>
+        <button type="button" name="submit" onClick={this.onSubmit}>検索</button>
         <ul>
           {eventlist}
         </ul>
